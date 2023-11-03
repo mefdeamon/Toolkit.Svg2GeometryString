@@ -1,0 +1,96 @@
+<Window x:Class="Svg2GeometryString.Apply.IconSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Svg2GeometryString.Apply"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Title="类文件图标集应用查看（来源：iconfont 作者：小橘子）" Height="450" Width="350">
+    <Window.Resources>
+        <local:XiaoJuziIconSet x:Key="XiaoJuziIconSet"/>
+        <local:IconSetWindowModel x:Key="IconSetVm"/>
+    </Window.Resources>
+    <DockPanel>
+        <Path Fill="Orange"  Stretch="Uniform"  DockPanel.Dock="Top" Height="56"
+              Data="{Binding 邮件, Source={StaticResource XiaoJuziIconSet}}"/>
+
+        <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
+            <ItemsControl DataContext="{Binding Source={StaticResource IconSetVm}}"  ItemsSource="{Binding Icons}" Margin="0 5 0 0">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="5" Margin="0 0 5 5" BorderThickness="1">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF290736"/>
+                                    <GradientStop Color="#FF2C6976" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <DockPanel >
+
+                                <Grid x:Name="grid" DockPanel.Dock="Top"
+                                          Background="Transparent"
+                                          MinHeight="36" VerticalAlignment="Center"
+                                          MinWidth="36">
+                                    <Path x:Name="icon"
+                                              Data="{Binding IconData}" 
+                                              Fill="OrangeRed"
+                                              Stretch="Uniform"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Opacity="0.8">
+                                        <Path.LayoutTransform>
+                                            <ScaleTransform x:Name="IconScale"/>
+                                        </Path.LayoutTransform>
+                                    </Path>
+                                </Grid>
+                                <TextBlock  Text="{Binding IconName}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            </DockPanel>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="icon" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale"
+                                                             Storyboard.TargetProperty="ScaleX"
+                                                             To="1.2"
+                                                             Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="IconScale"
+                                                             Storyboard.TargetProperty="ScaleY"
+                                                             To="1.2"
+                                                             Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="IconScale"
+                                                             Storyboard.TargetProperty="ScaleX"
+                                                             To="1"
+                                                             Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="IconScale"
+                                                             Storyboard.TargetProperty="ScaleY"
+                                                             To="1"
+                                                             Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </DockPanel>
+</Window>

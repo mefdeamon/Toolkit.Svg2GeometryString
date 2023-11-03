@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>C:\Users\MI\.nuget\packages\wedraft.toolkit.firstdraft\1.1.0\contentFiles\any\netcoreapp3.1\firstdraft.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WeDraft.Toolkit.FirstDraft" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Svg2GeometryString\Svg2GeometryString.csproj" />
+  </ItemGroup>
+
+</Project>

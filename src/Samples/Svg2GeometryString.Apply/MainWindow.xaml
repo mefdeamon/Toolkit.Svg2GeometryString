@@ -1,0 +1,40 @@
+<Window x:Class="Svg2GeometryString.Apply.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Svg2GeometryString.Apply"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="SVG文件的图形微语言字符串查看器 1.0.0" Height="450" Width="800">
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <DockPanel DockPanel.Dock="Top" LastChildFill="False" >
+                    <Button  DockPanel.Dock="Left" HorizontalAlignment="Left" Click="LoadSvgFile_Click" Content="查看SVG图标"/>
+                    <Button  DockPanel.Dock="Right" HorizontalAlignment="Left" Click="OpenClass_Click" Content="查看生成类文件的图标"/>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top" Height="96" Margin="5">
+                    <Border Width="96" BorderBrush="Black" BorderThickness="1" Margin="5">
+                        <Path x:Name="SvgFileViewPath" Fill="OrangeRed" Stretch="Uniform" Width="56" Height="56"/>
+                    </Border>
+                    <TextBox  Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch"
+                             x:Name="SvgFileContentText" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"/>
+                </DockPanel>
+            </DockPanel>
+
+
+            <DockPanel DockPanel.Dock="Top">
+                <DockPanel DockPanel.Dock="Top" LastChildFill="False" >
+                    <Button HorizontalAlignment="Left" Click="LoadSvgFiles_Click" VerticalAlignment="Top" Content="查看文件夹下的所有SVG图标"/>
+                    <Button DockPanel.Dock="Right" Margin="5 0 0 0" IsEnabled="{Binding ElementName=SaveCSButton,Path=IsEnabled}" HorizontalAlignment="Left" Click="Goto_Click" VerticalAlignment="Top" Content="进入文件夹"/>
+                    <Button DockPanel.Dock="Right" x:Name="SaveCSButton" HorizontalAlignment="Left" Click="Save_Click" VerticalAlignment="Top" Content="导出到本地.CS文件"/>
+                    <CheckBox DockPanel.Dock="Right" IsChecked="True" x:Name="KeepAllTextCheckBox" Content="保留全格式" ToolTip="勾选时，保留文件名全格式（除开空格），不勾选，按照属性名定义规则，将非法字符转换成下划线"/>
+                </DockPanel>
+                <WrapPanel DockPanel.Dock="Top" x:Name="SvgsWarp">
+
+                </WrapPanel>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>
