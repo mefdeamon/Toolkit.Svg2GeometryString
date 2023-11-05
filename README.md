@@ -44,6 +44,8 @@ typora-root-url: ./res\readme
 
 ![](/5.png)
 
+![](/7.png)
+
 ![](/6.png)
 
 #### 函数库
@@ -88,6 +90,14 @@ typora-root-url: ./res\readme
 用户输入一个文件夹地址，输出C#类结构的文件，每个属性代表一个字符串，防止文件名冲突，用户最好还需要输入文件名检查规则。
 
 以上库函数，仓库中提供了示例程序，位于*\Samples\Svg2GeometryString.Apply*用户可以参考。
+
+##### V2.0新增
+
+```c#
+public static List<String> ParseDetail(FileInfo svgFile)
+public static List<SvgFileModel> Parse(DirectoryInfo directory, string pathDataSeparatorr = "\n")
+public static bool ParseToXamlFile(DirectoryInfo directory, FileInfo outputFile, Func<string, string> getPropertyName = null)
+```
 
 
 
