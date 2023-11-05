@@ -11,6 +11,101 @@ namespace Svg2GeometryString
     /// </summary>
     public static class Svg2GeoConverter
     {
+
+        /// <summary>
+        /// 将文件夹中所有svg文件转成C#格式的类文件，类名为XxxxIconSet
+        /// Xxxx由输入的文件夹限定
+        /// 类文件中根据SVG的文件生成对应的一个只读的String类型属性
+        /// </summary>
+        /// <param name="directory">输入的文件夹（包含svg图标）</param>
+        /// <param name="outputFile">输出的类文件</param>
+        /// <param name="getPropertyName">类中属性名与svg文件名的转换关系,默认为null</param>
+        /// <returns></returns>
+        public static bool ParseToXamlFile(DirectoryInfo directory, FileInfo outputFile, Func<string, string> getPropertyName = null)
+        {
+            var svgFiles = Parse(directory, pathDataSeparatorr: "\n\t\t");
+
+            Console.WriteLine($"一共包含{svgFiles.Count}个图标。");
+
+            if (outputFile.Exists)
+            {
+                outputFile.Delete();
+            }
+
+            Console.WriteLine($"开始转换...");
+            using (FileStream fs = new FileStream(outputFile.FullName, FileMode.OpenOrCreate))
+            {
+                using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
+                {
+                    sw.WriteLine("<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"");
+                    sw.WriteLine("                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
+
+                    foreach (var item in svgFiles)
+                    {
+                        string propertyName = item.Name;
+
+                        if (getPropertyName != null)
+                        {
+                            propertyName = getPropertyName.Invoke(propertyName);
+                        }
+
+                        sw.WriteLine($"\t<StreamGeometry x:Key=\"{propertyName}\">");
+                        sw.WriteLine($"\t\t{item.PathData}");
+                        sw.WriteLine($"\t</StreamGeometry>");
+                        Console.WriteLine($"{propertyName}\t{item.Name}");
+                    }
+
+                    sw.WriteLine("</ResourceDictionary>");
+                    sw.Close();
+                }
+            }
+            Console.WriteLine($"转换完成");
+            Console.WriteLine($"存储到 {outputFile.FullName}");
+            return true;
+        }
+
+        /// <summary>
+        /// 将一个svg文件的图标转换成 Wpf Path Data 支持的字符串格式（图形微语言）
+        /// </summary>
+        /// <param name="svgFile">SVG文件信息</param>
+        /// <returns>图标对应的数据内容（图形微语言）多个路径独立反馈</returns>
+        public static List<String> ParseDetail(FileInfo svgFile)
+        {
+            // 读取svg文件
+            XElement xElement = XElement.Load(svgFile.FullName);
+            var eles = xElement.Elements();
+            List<string> pathData = new List<string>();
+            foreach (var ele in eles)
+            {
+                pathData.Add(ele.Attribute("d").Value.ToString());
+            }
+            return pathData;
+        }
+
+        public static List<SvgFileModel> Parse(DirectoryInfo directory, string pathDataSeparatorr = "\n")
+        {
+            List<SvgFileModel> svgDataFiles = new List<SvgFileModel>();
+
+            string fileExtension = ".svg";
+            var files = directory.GetFiles();
+            var svgFiles = files.Where(t => System.IO.Path.GetExtension(t.FullName).Equals(fileExtension, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            foreach (var item in svgFiles)
+            {
+                string propertyName = item.Name.Substring(0, item.Name.Length - 4);
+
+                SvgFileModel svgFile = new SvgFileModel();
+                svgFile.Name = propertyName;
+
+                var pathData = ParseDetail(item);
+
+                svgFile.PathData = string.Join(pathDataSeparatorr, pathData.ToArray());
+                svgDataFiles.Add(svgFile);
+            }
+
+            return svgDataFiles;
+        }
+
         /// <summary>
         /// 将文件夹中所有svg文件转成C#格式的类文件，类名为XxxxIconSet
         /// Xxxx由输入的文件夹限定
@@ -105,5 +200,6 @@ namespace Svg2GeometryString
 
             return svgDataFiles;
         }
+
     }
 }

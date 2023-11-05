@@ -95,8 +95,6 @@ namespace Svg2GeometryString.Apply
         {
             if (LoadDirectory != null && LoadDirectory.Exists)
             {
-                saveFile = new FileInfo(System.IO.Path.Combine(LoadDirectory.FullName, LoadDirectory.Name + "IconSet.cs"));
-
                 // 文件名过滤 ( 只包含字母数组和下划线）
                 Func<string, string> getPropertyNameByEnglishName = new Func<string, string>(propertyName =>
                 {
@@ -119,24 +117,58 @@ namespace Svg2GeometryString.Apply
                     return propertyName;
                 });
 
-                if (saveFile.Exists)
+                if (sender is Button bt)
                 {
-                    saveFile.Delete();
+                    if (bt.Content.ToString().Contains(".CS"))
+                    {
+                        saveFile = new FileInfo(System.IO.Path.Combine(LoadDirectory.FullName, LoadDirectory.Name + "IconSet.cs"));
+
+                        if (saveFile.Exists)
+                        {
+                            saveFile.Delete();
+                        }
+
+                        if (Svg2GeoConverter.ParseToClassFile(LoadDirectory, saveFile, KeepAllTextCheckBox.IsChecked == true ? null : getPropertyNameByEnglishName))
+                        {
+                            MessageBox.Show("导出成功，数据存储在" + saveFile.FullName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("导出失败！");
+                        }
+
+                    }
+                    else
+                    {
+                        saveFile = new FileInfo(System.IO.Path.Combine(LoadDirectory.FullName, LoadDirectory.Name + "IconSet.xaml"));
+
+                        if (saveFile.Exists)
+                        {
+                            saveFile.Delete();
+                        }
+
+                        if (Svg2GeoConverter.ParseToXamlFile(LoadDirectory, saveFile, KeepAllTextCheckBox.IsChecked == true ? null : getPropertyNameByEnglishName))
+                        {
+                            MessageBox.Show("导出成功，数据存储在" + saveFile.FullName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("导出失败！");
+                        }
+                    }
                 }
 
-                if (Svg2GeoConverter.ParseToClassFile(LoadDirectory, saveFile, KeepAllTextCheckBox.IsChecked == true ? null : getPropertyNameByEnglishName))
-                {
-                    MessageBox.Show("导出成功，数据存储在" + saveFile.FullName);
-                }
-                else
-                {
-                    MessageBox.Show("导出失败！");
-                }
-
+               
             }
         }
 
         FileInfo saveFile;
+
+        private void SaveCsFile()
+        {
+
+        }
+
 
 
         private void Goto_Click(object sender, RoutedEventArgs e)

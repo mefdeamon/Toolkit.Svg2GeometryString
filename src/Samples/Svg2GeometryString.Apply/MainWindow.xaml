@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Svg2GeometryString.Apply"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="SVG文件的图形微语言字符串查看器 1.0.0" Height="450" Width="800">
+        Title="SVG文件的图形微语言字符串查看器 2.0" Height="450" Width="800">
     <Grid>
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
@@ -28,7 +28,12 @@
                 <DockPanel DockPanel.Dock="Top" LastChildFill="False" >
                     <Button HorizontalAlignment="Left" Click="LoadSvgFiles_Click" VerticalAlignment="Top" Content="查看文件夹下的所有SVG图标"/>
                     <Button DockPanel.Dock="Right" Margin="5 0 0 0" IsEnabled="{Binding ElementName=SaveCSButton,Path=IsEnabled}" HorizontalAlignment="Left" Click="Goto_Click" VerticalAlignment="Top" Content="进入文件夹"/>
-                    <Button DockPanel.Dock="Right" x:Name="SaveCSButton" HorizontalAlignment="Left" Click="Save_Click" VerticalAlignment="Top" Content="导出到本地.CS文件"/>
+
+                    <DockPanel DockPanel.Dock="Right" x:Name="SaveCSButton">
+                        <Button  HorizontalAlignment="Left" Click="Save_Click" VerticalAlignment="Top" Content=".CS文件" Margin="3 0 0 0"/>
+                        <Button DockPanel.Dock="Right" HorizontalAlignment="Left" Click="Save_Click" VerticalAlignment="Top" Content=".XAML文件"/>
+                    </DockPanel>
+                    <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0 0 0 0" Text="导出到本地"/>
                     <CheckBox DockPanel.Dock="Right" IsChecked="True" x:Name="KeepAllTextCheckBox" Content="保留全格式" ToolTip="勾选时，保留文件名全格式（除开空格），不勾选，按照属性名定义规则，将非法字符转换成下划线"/>
                 </DockPanel>
                 <WrapPanel DockPanel.Dock="Top" x:Name="SvgsWarp">

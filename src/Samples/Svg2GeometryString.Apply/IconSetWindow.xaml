@@ -8,12 +8,25 @@
         WindowStartupLocation="CenterOwner"
         Title="类文件图标集应用查看（来源：iconfont 作者：小橘子）" Height="450" Width="350">
     <Window.Resources>
-        <local:XiaoJuziIconSet x:Key="XiaoJuziIconSet"/>
-        <local:IconSetWindowModel x:Key="IconSetVm"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="XiaoJuziIconSet.xaml"  />
+            </ResourceDictionary.MergedDictionaries>
+            <local:XiaoJuziIconSet x:Key="XiaoJuziIconSet"/>
+            <local:IconSetWindowModel x:Key="IconSetVm"/>
+        </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
-        <Path Fill="Orange"  Stretch="Uniform"  DockPanel.Dock="Top" Height="56"
+
+        <WrapPanel DockPanel.Dock="Top" VerticalAlignment="Center"  HorizontalAlignment="Center">
+
+            <Path Fill="Orange"  Stretch="Uniform"  Margin="5" Height="56"
               Data="{Binding 邮件, Source={StaticResource XiaoJuziIconSet}}"/>
+
+            <Path Fill="Orange"  Stretch="Uniform" Margin="5" Height="56"
+              Data="{StaticResource  播放器}"/>
+        </WrapPanel>
+            
 
         <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
             <ItemsControl DataContext="{Binding Source={StaticResource IconSetVm}}"  ItemsSource="{Binding Icons}" Margin="0 5 0 0">
